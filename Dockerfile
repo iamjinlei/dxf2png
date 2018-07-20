@@ -11,8 +11,6 @@ RUN apt-get -y install xvfb
 
 RUN mkdir /work
 
-#ADD libdxfrw.zip /work/libdxfrw.zip
-#RUN cd /work && unzip libdxfrw.zip
-
-#RUN qmake -r
-#RUN  make
+ADD dxf2png.zip /work/dxf2png.zip
+RUN cd /work && unzip dxf2png.zip
+RUN cd dxf2png && qmake -r && make -j 8 && cp -rf unix /dxf2png
