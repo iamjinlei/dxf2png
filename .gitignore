@@ -72,9 +72,4 @@ scripts/PWD
 *.orig
 *.user
 
-core
-*.core
-vgcore.*
-core.*
-
 .qmake.stash
