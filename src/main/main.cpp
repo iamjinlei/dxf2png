@@ -29,7 +29,9 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
+#include <sstream>
 #include <string>
+#include <vector>
 
 #include <QDebug>
 #include <QApplication>
@@ -51,6 +53,16 @@
 
 #include "lc_application.h"
 #include "rs_debug.h"
+
+std::vector<std::string> splitToSet(const std::string &s, char delim) {
+    std::stringstream ss(s);
+    std::string item;
+    std::vector<std::string> v;
+    while (std::getline(ss, item, delim)) {
+        v.push_back(item);
+    }
+    return v;
+}
 
 /**
  * Exports the drawing as a bitmap or another picture format.
@@ -146,23 +158,43 @@ int main(int argc, char** argv) {
         QString(prgInfo.absolutePath()));
     RS_FONTLIST->init();
 
-    if (argc != 3 && argc != 4 && argc != 6) {
+    if (argc < 3 || argc > 7) {
         std::cout << "invalid arguments" << std::endl;
-        std::cout << "dxf2png dxf_path png_path [black|white|transparent] [width] [height]" << std::endl;
+        std::cout << "dxf2png dxf_path png_path [black|white|transparent] [width] [height] [layer_filter]" << std::endl;
         return 1;
     }
 
     std::string dxfPath(argv[1]);
     std::string outPath(argv[2]);
     std::string bgColor = "transparent";
-    if (argc > 3) {
+    std::vector<std::string> layerFilter;
+    bool inclusion = false;
+
+    if (argc >= 4) {
       bgColor = argv[3];
     }
     int w = 1600;
     int h = 1200;
-    if (argc == 6) {
+    if (argc >= 5) {
         w = std::atoi(argv[4]);
+    }
+    if (argc >= 6) {
         h = std::atoi(argv[5]);
+    }
+    if (argc == 7) {
+        std::string filterStr(argv[6]);
+        if (filterStr.size() > 0) {
+            if (filterStr[0] == '-') {
+                inclusion = false;
+                filterStr = filterStr.substr(1);
+            } else if (filterStr[0] == '+') {
+                inclusion = true;
+                filterStr = filterStr.substr(1);
+            } else {
+                inclusion = true;
+            }
+            layerFilter = splitToSet(filterStr, ',');
+        }
     }
 
     if (bgColor != "black" && bgColor != "white" && bgColor != "transparent") {
@@ -189,6 +221,23 @@ int main(int argc, char** argv) {
     if (!doc->open(QString::fromStdString(dxfPath), RS2::FormatUnknown)) {
         std::cout << "failed to open file " << dxfPath << std::endl;
         return 1;
+    }
+
+    // Toggle layers in filter
+    for (const std::string& layerName : layerFilter) {
+        if (inclusion) {
+            std::cout << "select layer: " << layerName << std::endl;
+        } else {
+            std::cout << "skip layer: " << layerName << std::endl;
+        }
+        doc->toggleLayer(QString::fromStdString(layerName));
+    }
+    // Reverse selection if filter is a whitelist
+    if (inclusion) {
+        RS_LayerList* layers = doc->getLayerList();
+        for (QList<RS_Layer*>::const_iterator it = layers->begin(); it != layers->end(); it++) {
+            doc->toggleLayer(*it);
+        }
     }
 
     doc->calculateBorders();
