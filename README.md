@@ -1,6 +1,7 @@
 # dxf2png
 
-dxf2png is a fork and stripped down version of LibreCAD that allows you to convert DXF file to bitmap format (e.g. png) headlessly
+dxf2png is a fork and stripped down version of LibreCAD that allows you to convert DXF file to graphic format headlessly. Support png, bmp, jpg and svg.
+Other export types supported LibreCAD can also be extended.
 
 # Getting started
 

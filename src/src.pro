@@ -12,9 +12,9 @@ DEFINES -= JWW_WRITE_SUPPORT
 #VERSION=$${LC_VERSION}
 
 # Store intermedia stuff somewhere else
-GENERATED_DIR = ../../generated/dxf2png
+GENERATED_DIR = ../generated/dxf2png
 # Use common project definitions.
-include(../../common.pri)
+include(../common.pri)
 include(./boost.pri)
 
 CONFIG += qt \
@@ -29,27 +29,27 @@ CONFIG += c++11
     QMAKE_CXXFLAGS += -fext-numeric-literals
 }
 
-GEN_LIB_DIR = ../../generated/lib
+GEN_LIB_DIR = ../generated/lib
 PRE_TARGETDEPS += $$GEN_LIB_DIR/libdxfrw.a \
 		$$GEN_LIB_DIR/libjwwlib.a
 
-DESTDIR = $${INSTALLDIR}
+DESTDIR = ../unix
 
 # Make translations at the end of the process
 unix {
     TARGET = dxf2png
     DEFINES += QC_APPDIR="\"dxf2png\""
-    QMAKE_POST_LINK = cd $$_PRO_FILE_PWD_/../.. && scripts/postprocess-unix.sh
+    QMAKE_POST_LINK = cd $$_PRO_FILE_PWD_/.. && scripts/postprocess-unix.sh
 }
 
 # Additional libraries to load
-LIBS += -L../../generated/lib  \
+LIBS += -L../generated/lib  \
     -ldxfrw \
     -ljwwlib
 
 INCLUDEPATH += \
-    ../../libraries/libdxfrw/src \
-    ../../libraries/jwwlib/src \
+    ../libraries/libdxfrw/src \
+    ../libraries/jwwlib/src \
     lib/creation \
     lib/debug \
     lib/engine \

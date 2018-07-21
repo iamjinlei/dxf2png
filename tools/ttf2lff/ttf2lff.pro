@@ -18,14 +18,5 @@ GENERATED_DIR = ../../generated/tools/ttf2lff
 SOURCES += main.cpp
 
 unix {
-    macx {
-        TARGET = ../../LibreCAD.app/Contents/MacOS/ttf2lff
-    } else {
-        TARGET = ../../unix/ttf2lff
-    }
+    TARGET = ../../unix/ttf2lff
 }
-
-win32 {
-    TARGET = ../../../windows/ttf2lff
-}
-

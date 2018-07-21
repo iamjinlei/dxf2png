@@ -4,7 +4,7 @@ CONFIG += ordered
 
 SUBDIRS     = \
     libraries \
-    core \
+    src \
     tools
 
 # c++11 is now obligatory for LibreCAD
