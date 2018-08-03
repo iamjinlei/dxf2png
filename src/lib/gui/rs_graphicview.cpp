@@ -983,7 +983,8 @@ void RS_GraphicView::setPenForEntity(RS_Painter *painter,RS_Entity *e)
 	}
 
 	// prevent background color on background drawing:
-	if (pen.getColor().stripFlags()==background.stripFlags()) {
+	if (pen.getColor().stripFlags()==background.stripFlags() ||
+       pen.getColor().stripFlags()==transparentModeBackground.stripFlags()) {
 		pen.setColor(foreground);
 	}
 
@@ -1568,6 +1569,9 @@ RS_EntityContainer* RS_GraphicView::getOverlayContainer(RS2::OverlayGraphics pos
 //RS_EventHandler* RS_GraphicView::getEventHandler() const{
 //    return eventHandler;
 //}
+void RS_GraphicView::setForeground(const RS_Color& fg) {
+    foreground = fg;
+}
 
 void RS_GraphicView::setBackground(const RS_Color& bg) {
 	background = bg;
@@ -1578,6 +1582,10 @@ void RS_GraphicView::setBackground(const RS_Color& bg) {
 	} else {
 		foreground = RS_Color(255,255,255);
 	}
+}
+
+void RS_GraphicView::setTransparentModeBackground(const RS_Color& c) {
+	transparentModeBackground = c;
 }
 
 void RS_GraphicView::setBorders(int left, int top, int right, int bottom) {

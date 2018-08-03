@@ -117,11 +117,13 @@ public:
 	  called whenever the view changed */
     virtual void adjustZoomControls() = 0;
 
+    virtual void setForeground(const RS_Color& fg);
 	/**
 	 * Sets the background color. Note that applying the background
 	 * color for the widget is up to the implementing class.
 	 */
 	virtual void setBackground(const RS_Color& bg);
+    virtual void setTransparentModeBackground(const RS_Color& c);
 
 	/**
 		 * @return Current background color.
@@ -356,6 +358,7 @@ protected:
 
 	/** background color (any color) */
 	RS_Color background;
+	RS_Color transparentModeBackground;
 	/** foreground color (black or white) */
 	RS_Color foreground;
 	/** selected color */

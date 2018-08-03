@@ -114,8 +114,13 @@ bool slotFileExport(
 	RS_StaticGraphicView gv(size.width(), size.height(), &painter, &borders);
     if (bgColor == "black") {
 		gv.setBackground(Qt::black);
+		gv.setForeground(RS_Color(255, 255, 255));
     } else if (bgColor == "white") {
 		gv.setBackground(Qt::white);
+		gv.setForeground(RS_Color(0, 0, 0));
+    } else if (bgColor == "transparent") {
+		gv.setTransparentModeBackground(RS_Color(0, 0, 0));
+		gv.setForeground(RS_Color(255, 255, 255));
     }
 
     gv.setContainer(graphic);
