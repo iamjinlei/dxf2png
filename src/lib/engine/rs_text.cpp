@@ -265,7 +265,7 @@ void RS_Text::update() {
     usedTextWidth = 0.0;
     usedTextHeight = 0.0;
 
-    RS_Font* font = RS_FONTLIST->requestFont(data.style);
+    RS_Font* font = RS_FONTLIST->requestFont();
 
     if (font==NULL) {
         return;

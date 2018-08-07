@@ -237,7 +237,7 @@ void RS_MText::update() {
     usedTextWidth = 0.0;
     usedTextHeight = 0.0;
 
-    RS_Font* font = RS_FONTLIST->requestFont(data.style);
+    RS_Font* font = RS_FONTLIST->requestFont();
 
     if (font==NULL) {
         return;
@@ -298,19 +298,7 @@ void RS_MText::update() {
                     }
                     int j=data.text.indexOf('}',i);
                     if(j>i){
-                        //
-                        QString fontName;
-                        if(j==i+1)
-                            fontName="standard";
-                        else
-                            fontName=data.text.mid(i+1,j-i-1);
-                        RS_Font* fontNew = RS_FONTLIST->requestFont(
-                                    fontName
-                                    );
-                        if(fontNew != NULL) {
-                            font=fontNew;
-                        }
-                        if(font==NULL) font = RS_FONTLIST->requestFont("standard");
+                        font = RS_FONTLIST->requestFont();
                         i=j;
                     }
                 }

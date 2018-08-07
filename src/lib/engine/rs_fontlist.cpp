@@ -7,7 +7,7 @@
 **
 **
 ** This file may be distributed and/or modified under the terms of the
-** GNU General Public License version 2 as published by the Free Software 
+** GNU General Public License version 2 as published by the Free Software
 ** Foundation and appearing in the file gpl-2.0.txt included in the
 ** packaging of this file.
 **
@@ -15,12 +15,12 @@
 ** but WITHOUT ANY WARRANTY; without even the implied warranty of
 ** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 ** GNU General Public License for more details.
-** 
+**
 ** You should have received a copy of the GNU General Public License
 ** along with this program; if not, write to the Free Software
 ** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
 **
-** This copyright notice MUST APPEAR in all copies of the script!  
+** This copyright notice MUST APPEAR in all copies of the script!
 **
 **********************************************************************/
 
@@ -42,7 +42,7 @@ RS_FontList* RS_FontList::instance() {
 
 
 /**
- * Initializes the font list by creating empty RS_Font 
+ * Initializes the font list by creating empty RS_Font
  * objects, one for each font that could be found.
  */
 void RS_FontList::init() {
@@ -91,34 +91,18 @@ void RS_FontList::clearFonts() {
  * \p NULL if no such font was found. The font will be loaded into
  * memory if it's not already.
  */
-RS_Font* RS_FontList::requestFont(const QString& name) {
-    RS_DEBUG->print("RS_FontList::requestFont %s",  name.toLatin1().data());
-
-    QString name2 = name.toLower();
+RS_Font* RS_FontList::requestFont() {
+    QString name = QString::fromStdString("huiyun");
     RS_Font* foundFont = NULL;
-
-    // QCAD 1 compatibility:
-    if (name2.contains('#') && name2.contains('_')) {
-        name2 = name2.left(name2.indexOf('_'));
-    } else if (name2.contains('#')) {
-        name2 = name2.left(name2.indexOf('#'));
-    }
-
-    RS_DEBUG->print("name2: %s", name2.toLatin1().data());
 
 	// Search our list of available fonts:
 	for( auto const& f: fonts){
-
-        if (f->getFileName()==name2) {
+        if (f->getFileName()==name) {
             // Make sure this font is loaded into memory:
             f->loadFont();
 			foundFont = f.get();
             break;
         }
-    }
-
-	if (!foundFont && name!="standard") {
-        foundFont = requestFont("standard");
     }
 
     return foundFont;

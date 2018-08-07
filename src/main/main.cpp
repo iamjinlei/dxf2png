@@ -152,6 +152,7 @@ bool slotFileExport(
 int main(int argc, char** argv) {
     QT_REQUIRE_VERSION(argc, argv, "5.2.1");
     RS_DEBUG->setLevel(RS_Debug::D_WARNING);
+    //RS_DEBUG->setLevel(RS_Debug::D_DEBUGGING);
 
     LC_Application app(argc, argv);
 
@@ -178,8 +179,8 @@ int main(int argc, char** argv) {
     if (argc >= 4) {
       bgColor = argv[3];
     }
-    int w = 1600;
-    int h = 1200;
+    int w = 1920;
+    int h = 1080;
     if (argc >= 5) {
         w = std::atoi(argv[4]);
     }
